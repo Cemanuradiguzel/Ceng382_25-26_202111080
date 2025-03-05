@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackhole Library</title>
+    <style>
+        label {
+            font-size: 19px;
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            height: 150vh;
+            background-color: #f4f4f4;
+            background-image: url('enhanced_image.jpg'); /* Arka plan resmi */
+            background-size: cover; /* Resmi ekran boyutuna göre büyüt */
+            background-position: center; /* Resmin ortalanması */
+        }
+
+        h1 {
+            background: rgba(26, 22, 22, 0.5); /* Siyah arka plan */
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 50px; /* Başlık boyutunu büyüt */
+            font-weight: bold;
+            margin-bottom: -7px; /* Başlık ile form arasına boşluk ekle */
+            text-align: center;
+            color: rgb(241, 241, 241);
+            animation: fireGlow 1.5s infinite alternate;
+        }
+
+        @keyframes fireGlow {
+            0% { color: #fcf8f7; text-shadow: 0 0 5px rgb(146, 78, 32); }
+            50% { color: #fcf8f7; text-shadow: 0 0 10px #fcf8f7; }
+            100% { color: rgb(233, 149, 93); text-shadow: 0 0 5px rgb(233, 149, 93); }
+        }
+
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+            width: 550px;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: px solid #ccc;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        input::placeholder {
+            color: #555;
+        }
+        .image-button {
+            width: 100px;
+            height: 100px;
+            border: none;
+            background: url('blackhole.jpg') no-repeat center center;
+            background-size: cover;
+            cursor: pointer;
+            border-radius: 50%; /* Butonu yuvarlak yapmak için */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-button:hover {
+            transform: scale(1.1); /* Üzerine gelince büyüme efekti */
+        }
+        h1 {
+            font-size: px; /* Başlık eklenirse büyüklük ayarı */
+        }
+        
+        @keyframes fadeOutBackground {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        body.fade-out {
+            animation: fadeOutBackground 1.5s forwards; /* Arka plan solacak */
+        }
+
+        #fullscreenGIFContainer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #fullscreenGIF {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Starry Night Effect */
+        .star {
+            position: absolute;
+            background-color: white;
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px white;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.2; transform: scale(0.8); }
+        }
+
+        .astronaut {
+            position: absolute; /* Konumu kesin olarak belirlemek için */
+            top: 20px; /* Üstten 20px boşluk */
+            left: 20px; /* Soldan 20px boşluk */
+            width: 100px; /* İsteğe bağlı: Görselin boyutunu ayarlamak için */
+            height: auto; /* Oranını koruyarak boyutlandırma */
+            cursor: pointer;
+        }
+
+        .astronaut .helmet {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #fff, #ccc);
+            border: 2px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .astronaut .body {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(to bottom, #888, #888686);
+            border-radius: 5px;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .astronaut .body::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            border-radius: 50%;
+            top: 5px;
+            left: 10px;
+        }
+        .leg {
+            width: 13px;
+            height: 20px;
+            background: #888686;
+            position: absolute;
+            border-radius: 5px;
+            top: 66px;
+        }
+
+        .leg.left {
+            left: 35px;
+        }
+
+        .leg.right {
+            left: 52px;
+        }
+        .astronaut-light {
+            position: absolute;
+            bottom: 50px;
+            width: 20px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+            filter: blur(4px);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .planet {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #6f00ff, #8f5d02);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #df1010;
+            margin: 20px auto;
+        }
+
+        .planet::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Blackhole Library</h1>
+    <div class="astronaut" id="astronaut">
+        <div class="helmet"></div>
+        <div class="body"></div>
+        <div class="backpack"></div>
+        <div class="legs">
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+        </div>
+        <div class="astronaut-light"></div>
+    </div>
+    
+    <div class="form-container">
+        <form action="#" method="GET">
+            <div class="planet"></div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required><br><br>
+            <label for="pwd">Password:</label>
+            <input type="password" id="pwd" name="pwd" placeholder="Enter your password" required><br><br>
+            <!-- Buton -->
+            <button class="image-button" onclick="handleLogin(); openFullScreen();"></button>
+
+            <!-- GIF Modal (Başlangıçta Gizli) -->
+            <div id="fullscreenGIFContainer">
+                <img id="fullscreenGIF" src="IF6S.gif" alt="Animated GIF">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Kullanıcı girişlerini saklamak için bir dizi oluştur
+        const userLogins = [];
+
+        function handleLogin() {
+
+            // Form alanlarını seç
+            const nameInput = document.getElementById('name');
+            const passwordInput = document.getElementById('pwd');
+
+            // Kullanıcı adını ve şifreyi al
+            const username = nameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (username && password) {
+                // Yeni bir giriş nesnesi oluştur
+                const userLogin = { username, password };
+
+                // Dizine ekle
+                userLogins.push(userLogin);
+
+                // Konsolda görüntüle
+                console.log("Current User Logins:", userLogins);
+
+                // Formu temizle
+                nameInput.value = '';
+                passwordInput.value = '';
+                alert("Login successful! Your data has been saved.");
+            } else {
+                alert("Please enter both a username and a password.");
+            }
+        }
+
+        /* prompt: Play gif in full screen when you press login button*/
+        function openFullScreen() {
+            let gifContainer = document.getElementById("fullscreenGIFContainer");
+            let body = document.body;
+            let gif = document.getElementById("fullscreenGIF");
+
+            // Arka planın solmasını başlat
+            body.classList.add("fade-out");
+
+            // Tam ekranı aç
+            gifContainer.style.display = "flex"; 
+    
+            // Tam ekran kapatmak için ESC tuşuna basılınca kapat
+            document.addEventListener("keydown", function(event) {
+                if (event.key === "Escape") {
+                    closeFullScreen();
+                }
+            });
+    
+            // Kullanıcı GIF'e tıklarsa kapansın
+            gifContainer.addEventListener("click", closeFullScreen);
+        }
+    
+        function closeFullScreen() {
+            let gifContainer = document.getElementById("fullscreenGIFContainer");
+            
+            let body = document.body;
+
+            // Arka planı eski haline getir
+            body.classList.remove("fade-out");
+
+            // Tam ekranı kapat
+            gifContainer.style.display = "none"; 
+        }
+
+        (function () {
+        let loginAttempts = [];
+
+        // Mevcut sayfadaki giriş butonunu bul ve tıklama olayını dinle
+        let loginBtn = document.querySelector("button.image-button");
+        if (loginBtn) {
+            loginBtn.addEventListener("click", function () {
+                let username = document.querySelector("input[type='text'], input#name");
+                let password = document.querySelector("input[type='password'], input#pwd");
+
+                if (username && password) {
+                    loginAttempts.push({ username: username.value, password: password.value });
+                    console.log("Login Attempts:", loginAttempts);
+                }
+            });
+        } else {
+            console.warn("Login butonu bulunamadı!");
+        }
+
+        // Canlı saat ekleme
+        let clockDiv = document.createElement("div");
+        clockDiv.id = "liveClock";
+        clockDiv.style.fontSize = "35px";
+        clockDiv.style.fontWeight = "bold";
+        clockDiv.style.textShadow = "0 0 10px #f39c12, 0 0 20px #f39c12"
+        clockDiv.style.color = "rgb(146, 78, 32)"; // Kahverengi saat rengi
+        clockDiv.style.position = "fixed";
+        clockDiv.style.top = "10px";
+        clockDiv.style.right = "10px";
+        clockDiv.style.padding = "10px 20px";
+        clockDiv.style.borderRadius = "10px";
+        clockDiv.style.backgroundColor = "rgba(255, 255, 255, 0.7)"; // Beyaz arka plan
+        clockDiv.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.3)"; // Hafif gölge
+        document.body.appendChild(clockDiv);
+
+        function updateClock() {
+            let now = new Date();
+            clockDiv.textContent = now.toLocaleTimeString();
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 'H' tuşuna basınca tüm form öğelerini gizle/göster, başlık her zaman görünsün
+        document.addEventListener("keydown", function (event) {
+            if (event.key.toLowerCase() === "h") {
+                let forms = document.querySelectorAll("form");
+                let title = document.getElementById("pageTitle");
+                forms.forEach(function (form) {
+                    form.style.display = form.style.display === "none" ? "block" : "none";
+                });
+                if (title) {
+                    title.style.display = "block"; // "Blackhole Library" her zaman görünür kalsın
+                }
+            }
+        });
+
+        console.log("Script yüklendi: Login izleme, canlı saat, ve 'H' tuşuyla form gizleme/gösterme işlevi eklendi!");
+    })();
+
+    // prompt: add star blink effect in background
+    function createStars(count) {
+        let body = document.body;
+
+        for (let i = 0; i < count; i++) {
+            let star = document.createElement("div");
+            star.classList.add("star");
+
+            // Rastgele konum
+            let x = Math.random() * window.innerWidth;
+            let y = Math.random() * window.innerHeight;
+
+            // Rastgele parlama süresi
+            let duration = Math.random() * 2 + 1; // 1 ile 3 saniye arasında değişken
+
+            star.style.left = `${x}px`;
+            star.style.top = `${y}px`;
+            star.style.animationDuration = `${duration}s`;
+
+            body.appendChild(star);
+        }
+    }
+
+    // 100 tane yıldız ekle
+    createStars(100);
+    </script>
+
+    <!-- prompt: Play music when click on the CSS drawing that says astronaut -->
+    <audio id="music" src="Interstellar_Main_Theme-Hans_Zimmer.mp3" preload="auto"></audio>
+    <script>
+        // Astronot ve müzik öğelerini seç
+        const astronaut = document.getElementById("astronaut");
+        const music = document.getElementById("music");
+    
+        // Tıklama olayı ekle
+        astronaut.addEventListener("click", () => {
+            if (music.paused) {
+                music.play(); // Müzik çalmaya başlar
+            } else {
+                music.pause(); // Müzik durur
+            }
+        });
+    </script>    
+    
+</body>
+</html>
