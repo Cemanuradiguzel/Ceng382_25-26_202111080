@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .form-container input,
+        .form-container textarea {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 13px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        table tr {
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        table tr:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 300px;
+            text-align: center;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header .close-btn {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kitap Bilgisi</h1>
+
+    <div class="form-container">
+        <input type="text" id="bookName" placeholder="Kitap İsmi">
+        <input type="number" id="numberOfVolume" placeholder="Cilt Numarası">
+        <textarea id="description" placeholder="Kitap Açıklaması"></textarea>
+        <button id="addBookBtn">Kitabı Ekle</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Kitap İsmi</th>
+                <th>Cilt Numarası</th>
+                <th>Kitap Açıklaması</th>
+            </tr>
+        </thead>
+        <tbody id="bookTableBody">
+            <!-- Kitap girişleri burada görünecek -->
+        </tbody>
+    </table>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="descriptionModal">
+        <div class="modal-header">
+            <h2>Açıklama</h2>
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+        </div>
+        <p id="modalDescriptionText"></p>
+    </div>
+
+    <div class="modal-overlay" id="deleteModalOverlay"></div>
+    <div class="modal" id="deleteModal">
+        <div class="modal-header">
+            <h2>Kitabı Sil</h2>
+            <span class="close-btn" id="closeDeleteModalBtn">&times;</span>
+        </div>
+        <p>Bu kitabı silmek istediğinizden emin misiniz?</p>
+        <div style="text-align: right;">
+            <button id="confirmDeleteBtn" style="background-color: #d9534f; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Sil</button>
+            <button id="cancelDeleteBtn" style="background-color: #5bc0de; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">İptal</button>
+        </div>
+    </div>
+
+
+    <script>
+        document.getElementById('addBookBtn').addEventListener('click', function () {
+            const bookName = document.getElementById('bookName').value.trim();
+            const numberOfVolumeInput = document.getElementById('numberOfVolume').value.trim();
+            const description = document.getElementById('description').value.trim();
+
+            // Cilt numarasını sayıya çevir
+            const numberOfVolume = parseInt(numberOfVolumeInput, 10);
+
+            if (bookName && numberOfVolumeInput && !isNaN(numberOfVolume) && description) {
+                const tableBody = document.getElementById('bookTableBody');
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${bookName}</td>
+                    <td>${numberOfVolume}</td>
+                    <td class="description-cell">${description}</td>
+                `;
+
+                // Satıra çift tıklama etkinliği ekle
+                let rowToDelete = null;
+
+                document.getElementById('bookTableBody').addEventListener('dblclick', function (event) {
+                    const row = event.target.closest('tr');
+
+                    if (row) {
+                        rowToDelete = row;
+                        const deleteModal = document.getElementById('deleteModal');
+                        const deleteOverlay = document.getElementById('deleteModalOverlay');
+
+                        deleteModal.style.display = 'block';
+                        deleteOverlay.style.display = 'block';
+                    }
+                });
+
+                document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+                    if (rowToDelete) {
+                        rowToDelete.remove();
+                        rowToDelete = null;
+                    }
+                    closeDeleteModal();
+                });
+
+                document.getElementById('cancelDeleteBtn').addEventListener('click', function () {
+                    rowToDelete = null;
+                    closeDeleteModal();
+                });
+
+                document.getElementById('closeDeleteModalBtn').addEventListener('click', closeDeleteModal);
+                document.getElementById('deleteModalOverlay').addEventListener('click', closeDeleteModal);
+
+                function closeDeleteModal() {
+                    const deleteModal = document.getElementById('deleteModal');
+                    const deleteOverlay = document.getElementById('deleteModalOverlay');
+
+                    deleteModal.style.display = 'none';
+                    deleteOverlay.style.display = 'none';
+                }
+
+
+                tableBody.appendChild(row);
+
+                // Giriş alanlarını temizle
+                document.getElementById('bookName').value = '';
+                document.getElementById('numberOfVolume').value = '';
+                document.getElementById('description').value = '';
+            } else {
+                alert('Lütfen tüm alanları doldurun ve Cilt Numarasının bir sayı olduğundan emin olun.');
+            }
+        });
+
+        document.getElementById('bookTableBody').addEventListener('click', function (event) {
+            if (event.target.classList.contains('description-cell')) {
+                const descriptionText = event.target.textContent;
+                const modal = document.getElementById('descriptionModal');
+                const overlay = document.getElementById('modalOverlay');
+                const modalDescriptionText = document.getElementById('modalDescriptionText');
+
+                modalDescriptionText.textContent = descriptionText;
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+            }
+        });
+
+        document.getElementById('closeModalBtn').addEventListener('click', function () {
+            const modal = document.getElementById('descriptionModal');
+            const overlay = document.getElementById('modalOverlay');
+
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        document.getElementById('modalOverlay').addEventListener('click', function () {
+            const modal = document.getElementById('descriptionModal');
+            const overlay = document.getElementById('modalOverlay');
+
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
