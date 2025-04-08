@@ -1,0 +1,118 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.button-spacing {
+  margin-top: 25px; /* Butonu aşağı kaydır */
+}
+
+.btn-primary {
+  background-color: green !important;
+  border-color: green !important;
+}
+
+.btn-warning {
+  background-color: #ffc107 !important; /* Yellow background for "Edit" button */
+  border-color: #ffc107 !important;
+}
+
+.btn-danger {
+  background-color: #dc3545 !important; /* Red background for "Delete" button */
+  border-color: #dc3545 !important;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+/* Heading Styles */
+h3 {
+  color: #007bff; /* Blue color for headings */
+  margin-bottom: 20px; /* Space below the heading */
+}
+
+/* Form Inputs and Labels */
+input[type="text"], input[type="number"], textarea {
+  background-color: #f9f9f9; /* Light gray background for inputs */
+  border: 1px solid #ccc; /* Light gray border for inputs */
+}
+
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25); /* Subtle blue shadow on focus */
+}
+
+.save-btn {
+  background-color: orange !important;
+  border-color: darkorange !important;
+  color: white !important;
+}
+
+.table-spacing h3 {
+  margin-top: 2px; /* Tabloyu aşağı kaydır */
+  margin-bottom: 30px; /* Başlık ile tablo arasında boşluk bırak */
+}
+
+.actions-column {
+  width: 10px; /* Genişliği ayarla */
+  text-align: center;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: #f7f7f7; /* Light gray background for the whole page */
+  font-family: Arial, sans-serif; /* Use a clean font */
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* Add Border to the Add Class Form */
+.form-border {
+    background-color: #ffffff; /* White background for the form */
+    border: 2px solid #007bff; /* Blue border for form section */
+    padding: 20px; /* Add padding for spacing */
+    border-radius: 8px; /* Optional: Rounded corners */
+}
+
+/* Add Border to the Class List Table */
+.table-border {
+    background-color: #ffffff; /* White background for the table */
+    border: 2px solid #007bff; /* Blue border for table section */
+    border-radius: 8px; /* Optional: Rounded corners */
+    padding: 7px; /* Padding around the table */
+}
+
+/* Table Header and Cells */
+.table-bordered th {
+  background-color: #007bff; /* Blue background for the table header */
+  color: white; /* White text for table headers */
+  font-weight: bold;
+}
+
+.table-bordered td {
+  background-color: #f9f9f9; /* Light gray background for table rows */
+  color: #333; /* Dark text for table rows */
+}
+
+/* Hover Effect on Table Rows */
+.table-hover tbody tr:hover {
+  background-color: #e9ecef; /* Light gray background on hover */
+}
