@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\amine\\Ceng382_25-26_202111080\\MyRazorApp\\RazorApp.csproj": {}
+    "D:\\Ceng382_25-26_202111080\\MyRazorAppUpdated\\RazorApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\amine\\Ceng382_25-26_202111080\\MyRazorApp\\RazorApp.csproj": {
+    "D:\\Ceng382_25-26_202111080\\MyRazorAppUpdated\\RazorApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\amine\\Ceng382_25-26_202111080\\MyRazorApp\\RazorApp.csproj",
+        "projectUniqueName": "D:\\Ceng382_25-26_202111080\\MyRazorAppUpdated\\RazorApp.csproj",
         "projectName": "RazorApp",
-        "projectPath": "C:\\Users\\amine\\Ceng382_25-26_202111080\\MyRazorApp\\RazorApp.csproj",
+        "projectPath": "D:\\Ceng382_25-26_202111080\\MyRazorAppUpdated\\RazorApp.csproj",
         "packagesPath": "C:\\Users\\amine\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\amine\\Ceng382_25-26_202111080\\MyRazorApp\\obj\\",
+        "outputPath": "D:\\Ceng382_25-26_202111080\\MyRazorAppUpdated\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -68,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

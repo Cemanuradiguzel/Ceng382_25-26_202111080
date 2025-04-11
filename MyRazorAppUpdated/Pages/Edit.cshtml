@@ -4,9 +4,20 @@
     ViewData["Title"] = "Home page";
 }
 
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+
 <form method="post">
     <h1>Edit Class Information</h1>
-    <input type="text" id="ClassName" name="ClassInfo.ClassName" class="form-control" value="@Model.ClassInfo?.ClassName" required />
+    <input type="text" id="ClassName" name="ClassInfo.ClassName" class="form-control" value="@Model.ClassInfo?.ClassName ?? "Class Name"" required />
     <input type="number" id="StudentCount" name="ClassInfo.StudentCount" class="form-control" value="@Model.ClassInfo?.StudentCount" required />
     <textarea id="Description" name="ClassInfo.Description" class="form-control" required>@Model.ClassInfo?.Description</textarea>
 

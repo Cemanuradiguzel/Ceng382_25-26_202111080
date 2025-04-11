@@ -39,15 +39,15 @@ namespace MyRazorApp.Pages
         {
             // Find the class by Id in the static list in ClassData
             var classToEdit = ClassData.Classes.FirstOrDefault(c => c.Id == id);
-            if (classToEdit == null)
+            if (classToEdit == null || ClassInfo == null)
             {
                 return NotFound();
             }
 
             // Update the class properties with the new form data
-            classToEdit.ClassName = ClassInfo!.ClassName;
+            classToEdit.ClassName = ClassInfo.ClassName ?? classToEdit.ClassName;
             classToEdit.StudentCount = ClassInfo.StudentCount;
-            classToEdit.Description = ClassInfo.Description;
+            classToEdit.Description = ClassInfo.Description ?? classToEdit.Description;
 
             // Redirect back to the Index page to see the updated list
             return RedirectToPage("/Index");

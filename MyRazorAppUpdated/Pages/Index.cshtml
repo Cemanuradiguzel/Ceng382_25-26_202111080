@@ -4,6 +4,16 @@
     ViewData["Title"] = "Class Information";
 }
 
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
 <div class="container mt-4">
     <div class="row">
         <!-- Add and Edit Class form -->
