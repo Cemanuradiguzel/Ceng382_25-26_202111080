@@ -10,7 +10,22 @@ html {
     width: 100%;
   }
   .btn {
-      width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-control {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+  /* Export JSON butonunun yerini ayarlamak */
+  .export-json-btn {
+    width: 40%; /* Buton tam genişlikte olacak */
+    margin-left: 0; /* Sol margin kaldırılacak */
   }
 }
 
@@ -116,9 +131,50 @@ body {
 .table-bordered td {
   background-color: #f9f9f9; /* Light gray background for table rows */
   color: #333; /* Dark text for table rows */
+  text-align: center;
 }
 
 /* Hover Effect on Table Rows */
 .table-hover tbody tr:hover {
   background-color: #e9ecef; /* Light gray background on hover */
+}
+
+/* Target the Export to JSON button */
+.export-json-btn {
+  padding: 5px 10px; /* Adjust padding */
+  height: 80px; /* Adjust height */
+  width: auto; /* Adjust width if needed */
+  margin-top: 50px; /* Optional: Adjust margin */
+  margin-left: 140px; /* Add margin-left to shift the button to the right */
+  color: white !important;
+  background-color: rgb(72, 110, 175) !important;
+}
+
+.export-json-btn:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+.column-header {
+  cursor: pointer; /* Başlıklar tıklanabilir olmalı */
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.selected {
+  background-color: rgba(72, 110, 175, 0.5); /* Seçili sütun rengi */
+  color: rgb(255, 255, 255);
+}
+.column-header:hover {
+  background-color: rgb(255, 165, 0); /* Hover efekti */
+}
+
+/* Tabloya tıklanınca tüm kolonlar seçili gözükmeli */
+.table .selected-column {
+  background-color: rgb(255, 165, 0);
+  color: white;
+}
+
+.column-header.selected {
+  background-color: rgb(255, 165, 0) !important; /* Ensure the header stays orange when clicked */
 }

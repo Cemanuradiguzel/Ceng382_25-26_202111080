@@ -291,4 +291,7 @@ D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\refint\RazorApp.dl
 D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\RazorApp.pdb
 D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\RazorApp.genruntimeconfig.cache
 D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\ref\RazorApp.dll
-D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\compressed\jl6dedb2ty-v3kzv474x8.gz
+D:\Ceng382_25-26_202111080\MyRazorAppUpdated\bin\Debug\net9.0\Newtonsoft.Json.dll
+D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\RazorApp.csproj.AssemblyReference.cache
+D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\RazorApp.csproj.Up2Date
+D:\Ceng382_25-26_202111080\MyRazorAppUpdated\obj\Debug\net9.0\compressed\jl6dedb2ty-f9pmsmwkem.gz

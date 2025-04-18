@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ejzxgosNCsk=",
+  "dgSpecHash": "8g98Ewuc8fA=",
   "success": true,
   "projectFilePath": "D:\\Ceng382_25-26_202111080\\MyRazorAppUpdated\\RazorApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\amine\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

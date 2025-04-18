@@ -4,6 +4,8 @@
     ViewData["Title"] = "Class Information";
 }
 
+@using MyRazorApp.Models
+
 @if (!ModelState.IsValid)
 {
     <div class="alert alert-danger">
@@ -42,26 +44,42 @@
             </div>
         </div>
     
+    
+        
 
         <!-- Class List -->
         <div class="col-md-8"> <!-- Buraya class eklendi -->
             <h3 class="text-center">Class List</h3>
-            <div class="table-border"> <!-- Wrapper div for border -->                
-                <table class="table table-bordered">
+            <div class="table-border"> <!-- Wrapper div for border -->
+                <!-- Filter Form -->
+                <form method="get">
+                    <input type="text" name="filter" value="@Request.Query["filter"]" class="form-control" placeholder="Filter by class name" />
+                    <button type="submit" class="btn btn-primary mt-3">Filter</button>
+                </form>        
+                 <!-- JSON Export Button -->
+                <form method="post" asp-page-handler="ExportJson" id="exportForm">
+                    <input type="hidden" name="selectedColumns" id="selectedColumns" />
+                    <input type="hidden" name="filter"      value="@Request.Query["filter"]" />
+                    <input type="hidden" name="pageIndex"   value="@(ViewData["CurrentPage"] ?? 1)" />
+
+                    <button type="button" class="btn btn-info" onclick="exportToJson()">
+                        Export to JSON
+                    </button>
+                </form>
+    
+                <table class="table table-bordered mt-4">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Class Name</th>
-                            <th>Student Count</th>
-                            <th>Description</th>
+                            <th class="column-header" data-column="ClassName" onclick="toggleColumnSelection(this)">Class Name</th>
+                            <th class="column-header" data-column="StudentCount" onclick="toggleColumnSelection(this)">Student Count</th>
+                            <th class="column-header" data-column="Description" onclick="toggleColumnSelection(this)">Description</th>
                             <th style="width: 160px;">Actions</th> <!-- Adjust width -->
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in IndexModel.Classes)
+                        @foreach (var item in (ViewData["ClassList"] as List<ClassInformationModel>) ?? new List<ClassInformationModel>())
                         {
                             <tr>
-                                <td>@item.Id</td>
                                 <td>@item.ClassName</td>
                                 <td>@item.StudentCount</td>
                                 <td>@item.Description</td>
@@ -83,7 +101,61 @@
                         }
                     </tbody>
                 </table>
+
+                
+
+                @{
+                    int currentPage = (int)(ViewData["CurrentPage"] ?? 1); // Varsayılan olarak 1
+                    int totalPages = (int)(ViewData["TotalPages"] ?? 1);   // Varsayılan olarak 1
+                }
+                <!-- Pagination Controls -->
+                <div>
+                    
+                    <!-- Previous Button -->
+                    <a href="?pageIndex=@(currentPage - 1)&filter=@Request.Query["filter"]" 
+                        class="btn btn-secondary" @(currentPage <= 1 ? "disabled" : "")>
+                        Previous
+                    </a>
+
+                    <!-- Page Information -->
+                    <span>Page @currentPage of @totalPages</span>
+
+                    <!-- Next Button -->
+                    <a href="?pageIndex=@(currentPage + 1)&filter=@Request.Query["filter"]" 
+                        class="btn btn-secondary" @(currentPage >= totalPages ? "disabled" : "")>
+                        Next
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
+    <script>
+    let selectedColumns = [];
+    document.querySelectorAll('.column-header').forEach(column => {
+        column.addEventListener('click', () => {
+            const name = column.dataset.column;
+            const idx  = Array.from(column.parentElement.children)
+                                .indexOf(column) + 1;
+            if (selectedColumns.includes(name)) {
+                selectedColumns = selectedColumns.filter(c => c !== name);
+                column.classList.remove('selected');
+                document.querySelectorAll(`td:nth-child(${idx})`)
+                        .forEach(td => td.classList.remove('selected-column'));
+            } else {
+                selectedColumns.push(name);
+                column.classList.add('selected');
+                document.querySelectorAll(`td:nth-child(${idx})`)
+                        .forEach(td => td.classList.add('selected-column'));
+            }
+        });
+    });
+
+    function exportToJson() {
+        document.getElementById('selectedColumns').value = selectedColumns.join(',');
+        document.getElementById('exportForm').submit();
+    }
+
+</script>
