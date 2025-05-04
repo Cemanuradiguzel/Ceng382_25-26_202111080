@@ -50,5 +50,14 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    @if (User?.Identity?.IsAuthenticated == true)
+    {
+        <a href="/Account/Logout">Logout</a>
+    }
+    <!--else
+    {
+        <a href="/Account/Login">Login</a>
+    }-->
 </body>
+
 </html>

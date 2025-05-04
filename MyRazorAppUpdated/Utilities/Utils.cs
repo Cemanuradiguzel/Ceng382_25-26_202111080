@@ -4,7 +4,7 @@ namespace MyRazorApp.Utilities
 {
     public class Utils
     {
-        private static Utils _instance;
+        private static Utils _instance = new Utils();
         public static Utils Instance => _instance ?? (_instance = new Utils());
 
         private Utils() { }

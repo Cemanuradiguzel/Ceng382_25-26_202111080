@@ -1,0 +1,34 @@
+@page
+@model RazorApp.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="login-container">
+    <h3 class="text-center">Login</h3>
+
+    <form method="post" class="login-form">
+        <input type="hidden" name="returnUrl" value="@HttpContext.Request.Query["ReturnUrl"]" />
+        <div class="form-group">
+            <label asp-for="Username">Username</label>
+            <input type="text" asp-for="Username" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input type="password" asp-for="Password" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block">Login</button>
+    </form>
+
+    @if (!ModelState.IsValid)
+    {
+        <div class="alert alert-danger mt-3">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+</div>

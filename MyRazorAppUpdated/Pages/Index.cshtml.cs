@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 namespace RazorApp.Pages;
 using MyRazorApp.Utilities; // For Utils class
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 public class IndexModel : PageModel
 {
@@ -70,105 +72,65 @@ public class IndexModel : PageModel
     
 
     // JSON Export method (for downloading JSON file)
-   /* public IActionResult OnPostExportJson(string[] selectedColumns)
+    public IActionResult OnPostExportJson(string selectedColumns, string? filter, int pageIndex)
     {
-        var classes = GenerateSampleClasses();  // Example data (replace with actual data)
+        EnsureSeeded();  // sample veriyi sadece bir kez inject eden metot
 
-        // If no columns selected, export all columns
-        if (selectedColumns.Length == 0)
+        // 1) Filtre uygula
+        var query = Classes.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(filter))
+            query = query.Where(c => c.ClassName!
+                .Contains(filter, StringComparison.OrdinalIgnoreCase));
+
+        // 2) Sayfalama (isteğe bağlı)
+        const int pageSize = 10;
+        var paged = query
+            .Skip((pageIndex - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+        
+        // 3) Sütun seçimi
+        if (string.IsNullOrWhiteSpace(selectedColumns))
         {
-            selectedColumns = new[] { "ClassName", "StudentCount", "Description" }; // Default all columns
+            selectedColumns = "ClassName,StudentCount,Description";  // Varsayılan kolonlar
         }
+        
+        var cols = selectedColumns
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => s.Trim())
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        // Create a filtered list based on selected columns
-        var filteredData = classes.Select(c => new
+        var data = paged.Select(c => new
         {
-            ClassName = selectedColumns.Contains("ClassName") ? c.ClassName : null,
-            StudentCount = selectedColumns.Contains("StudentCount") ? c.StudentCount : 0,
-            Description = selectedColumns.Contains("Description") ? c.Description : null
+            ClassName    = cols.Contains("ClassName")    ? c.ClassName    : null,
+            StudentCount = cols.Contains("StudentCount") ? c.StudentCount : (int?)null,
+            Description  = cols.Contains("Description")  ? c.Description  : null
         }).ToList();
 
-        // Serialize the filtered data to JSON
-        var jsonResult = JsonConvert.SerializeObject(filteredData);
+        var json = JsonConvert.SerializeObject(
+            data,
+            Formatting.Indented,
+            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }
+        );
 
-        // Return the JSON file for download
-        return File(Encoding.UTF8.GetBytes(jsonResult), "application/json", "export.json");
+        return File(Encoding.UTF8.GetBytes(json), "application/json", "export.json");
     }
-public IActionResult OnPostExportJson(string selectedColumns)
-{
-    if (string.IsNullOrEmpty(selectedColumns))
-    {
-        // If no columns are selected, export all columns
-        selectedColumns = "ClassName,StudentCount,Description";
-    }
-    // Split the selected columns by commas
-    var selectedColumnArray = selectedColumns.Split(',');
-
-    // Fetch the paginated class data from ViewData
-    var classes = ViewData["ClassList"] as List<ClassInformationModel>;
-
-    if (classes == null)
-    {
-        // If ViewData["ClassList"] is null, return a bad request or appropriate message
-        return BadRequest("No class data available to export.");
-    }
-    
-    // Filter the data based on selected columns
-    var filteredData = classes.Select(c => new
-    {
-        ClassName = selectedColumnArray.Contains("ClassName") ? c.ClassName : null,
-        StudentCount = selectedColumnArray.Contains("StudentCount") ? c.StudentCount : 0,
-        Description = selectedColumnArray.Contains("Description") ? c.Description : null
-    }).ToList();
-
-    // Serialize the filtered data to JSON
-    var jsonResult = JsonConvert.SerializeObject(filteredData);
-
-    // Return the JSON file for download
-    return File(Encoding.UTF8.GetBytes(jsonResult), "application/json", "export.json");
-}*/
-public IActionResult OnPostExportJson(string selectedColumns, string? filter, int pageIndex)
-{
-    EnsureSeeded();  // sample veriyi sadece bir kez inject eden metot
-
-    // 1) Filtre uygula
-    var query = Classes.AsQueryable();
-    if (!string.IsNullOrWhiteSpace(filter))
-        query = query.Where(c => c.ClassName!
-            .Contains(filter, StringComparison.OrdinalIgnoreCase));
-
-    // 2) Sayfalama (isteğe bağlı)
-    const int pageSize = 10;
-    var paged = query
-        .Skip((pageIndex - 1) * pageSize)
-        .Take(pageSize)
-        .ToList();
-
-    // 3) Sütun seçimi
-    var cols = selectedColumns
-        .Split(',', StringSplitOptions.RemoveEmptyEntries)
-        .Select(s => s.Trim())
-        .ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-    var data = paged.Select(c => new
-    {
-        ClassName    = cols.Contains("ClassName")    ? c.ClassName    : null,
-        StudentCount = cols.Contains("StudentCount") ? c.StudentCount : (int?)null,
-        Description  = cols.Contains("Description")  ? c.Description  : null
-    }).ToList();
-
-    var json = JsonConvert.SerializeObject(
-        data,
-        Formatting.Indented,
-        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }
-    );
-
-    return File(Encoding.UTF8.GetBytes(json), "application/json", "export.json");
-}
 
     public IActionResult OnGet(int pageIndex = 1, string? filter = null)
      {
-         EnsureSeeded();
+        var username = HttpContext.Session.GetString("Username");
+        var token = HttpContext.Session.GetString("Token");
+
+        var cookieUsername = Request.Cookies["Username"];
+        var cookieToken = Request.Cookies["Token"];
+
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(token) ||
+            username != cookieUsername || token != cookieToken)
+        {
+            return RedirectToPage("/Login");
+        }
+
+        EnsureSeeded();
 
          var query = Classes.AsQueryable();
          if (!string.IsNullOrWhiteSpace(filter))
@@ -255,4 +217,11 @@ public IActionResult OnPostExportJson(string selectedColumns, string? filter, in
         // Redirect to refresh the page after deletion
         return RedirectToPage();
     }
+    public IActionResult OnPostLogout()
+        {
+            HttpContext.Session.Clear();
+            Response.Cookies.Delete("Username");
+            Response.Cookies.Delete("Token");
+            return RedirectToPage("/Login"); // Redirect to login page
+        }
 }

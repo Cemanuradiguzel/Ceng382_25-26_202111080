@@ -24,7 +24,7 @@ html {
   }
   /* Export JSON butonunun yerini ayarlamak */
   .export-json-btn {
-    width: 40%; /* Buton tam genişlikte olacak */
+    width: 40%;
     margin-left: 0; /* Sol margin kaldırılacak */
   }
 }
@@ -54,8 +54,9 @@ html {
 
 /* Heading Styles */
 h3 {
-  color: #007bff; /* Blue color for headings */
-  margin-bottom: 20px; /* Space below the heading */
+  color: #374785;
+  font-weight: bold;
+  text-align: center;
 }
 
 /* Form Inputs and Labels */
@@ -77,7 +78,7 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
 
 .table-spacing h3 {
   margin-top: 2px; /* Tabloyu aşağı kaydır */
-  margin-bottom: 30px; /* Başlık ile tablo arasında boşluk bırak */
+  margin-bottom: 10px; /* Başlık ile tablo arasında boşluk bırak */
 }
 
 .actions-column {
@@ -91,10 +92,12 @@ html {
 }
 
 body {
-  background-color: #f7f7f7; /* Light gray background for the whole page */
-  font-family: Arial, sans-serif; /* Use a clean font */
+  background-color: #A8D0E6; /* Soft mavi */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #24305E;
   margin-bottom: 60px;
 }
+
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
@@ -107,10 +110,18 @@ body {
 
 /* Add Border to the Add Class Form */
 .form-border {
+    /*margin-top: 57px;*/
     background-color: #ffffff; /* White background for the form */
     border: 2px solid #007bff; /* Blue border for form section */
     padding: 20px; /* Add padding for spacing */
     border-radius: 8px; /* Optional: Rounded corners */
+}
+.form-heading {
+  margin-top: 53px;
+  margin-bottom: 10px;
+  color: #374785;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 /* Add Border to the Class List Table */
@@ -118,7 +129,7 @@ body {
     background-color: #ffffff; /* White background for the table */
     border: 2px solid #007bff; /* Blue border for table section */
     border-radius: 8px; /* Optional: Rounded corners */
-    padding: 7px; /* Padding around the table */
+    padding: 10px; /* Padding around the table */
 }
 
 /* Table Header and Cells */
@@ -177,4 +188,57 @@ body {
 
 .column-header.selected {
   background-color: rgb(255, 165, 0) !important; /* Ensure the header stays orange when clicked */
+}
+
+.logout-btn {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  background-color: #F76C6C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: auto;
+  float: right;
+  margin-right: 280px;
+}
+
+.login-container {
+  max-width: 350px;
+  margin: 100px auto;
+  padding: 30px;
+  background-color: #F8E9A1;
+  border: 2px solid #F76C6C;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(36, 48, 94, 0.2);
+}
+
+.login-form input,
+.login-form button {
+  width: 100%;
+  font-size: 0.9rem;
+  border-radius: 6px;
+}
+
+.login-form input {
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.login-form input:focus {
+  border-color: #374785;
+  box-shadow: 0 0 5px rgba(55, 71, 133, 0.5);
+}
+
+.login-form button {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #F76C6C;
+  border: none;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+  background-color: #e85a5a;
 }

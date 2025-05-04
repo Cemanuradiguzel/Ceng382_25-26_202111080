@@ -1,0 +1,16 @@
+@page
+@model RazorApp.Pages.AdminPageModel
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h2 class="text-center">Admin Panel</h2>
+
+<div class="container mt-4">
+    <p>Welcome, Admin!</p>
+
+    <ul>
+        <li><a href="/Index">Go to Class Management</a></li>
+        <li><a href="/Login?handler=Logout" class="btn btn-danger">Logout</a></li>
+    </ul>
+</div>

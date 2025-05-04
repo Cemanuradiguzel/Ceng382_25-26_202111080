@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("RazorApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12355427e7add210391ff578bc2f8cdc518e22fd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6af7d57d28f6ea29b93e83c8c9e80813608a6c67")]
 [assembly: System.Reflection.AssemblyProductAttribute("RazorApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RazorApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
