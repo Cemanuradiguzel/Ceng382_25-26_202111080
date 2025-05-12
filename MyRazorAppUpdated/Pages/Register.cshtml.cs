@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyRazorAppUpdated.Models; // Adjust according to your namespace
+using RazorApp.Models; // Adjust according to your namespace
 using Newtonsoft.Json;  // For JSON serialization
 
 namespace RazorApp.Pages

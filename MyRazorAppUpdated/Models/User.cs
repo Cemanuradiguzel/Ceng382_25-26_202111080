@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity; // PasswordHasher'ı kullanabilmek için bu namespace'i ekleyin
 using System;
 
-namespace MyRazorAppUpdated.Models
+namespace RazorApp.Models
 {
     public static class UserData
     {

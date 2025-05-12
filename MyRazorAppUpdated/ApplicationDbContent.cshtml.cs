@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity; 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RazorApp.Models;
 
 namespace RazorApp.Data
 {
@@ -11,6 +12,6 @@ namespace RazorApp.Data
         {
         }
 
-        // Diğer DbSet'leri burada tanımlayabilirsiniz
+        public DbSet<Class>? Classes { get; set; }
     }
 }

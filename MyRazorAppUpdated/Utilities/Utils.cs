@@ -1,6 +1,6 @@
 using Newtonsoft.Json; 
 
-namespace MyRazorApp.Utilities
+namespace RazorApp.Utilities
 {
     public class Utils
     {

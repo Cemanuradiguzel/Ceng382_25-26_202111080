@@ -1,56 +1,70 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
-using MyRazorApp.Models;
+using RazorApp.Data;
+using RazorApp.Models;
+using System.Threading.Tasks;
 
-namespace MyRazorApp.Pages
+namespace RazorApp.Pages
 {
     public class EditModel : PageModel
     {
+        private readonly ApplicationDbContext _context;
+
+        public EditModel(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         // Define a property to hold the class information
         [BindProperty]
-        public ClassInformationModel? ClassInfo { get; set; }
+        public Class? ClassInfo { get; set; }
 
-        [BindProperty]
-        public string? ClassName { get; set; }
-
-        [BindProperty]
-        public int StudentCount { get; set; }
-
-        [BindProperty]
-        public string? Description { get; set; }
-
-        // This method is used to populate the form when the page loads (GET request)
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            // Find the class by Id from the static list in ClassData
-            ClassInfo = ClassData.Classes.FirstOrDefault(c => c.Id == id);
+            var classEntity = _context.Classes == null ? null : await _context.Classes.FindAsync(id);
+            if (classEntity == null)
+            {
+                return NotFound();
+            }
+            ClassInfo = classEntity;
 
             if (ClassInfo == null)
             {
-                return NotFound(); // Return a 404 if the class is not found
+                return NotFound();
             }
 
             return Page();
         }
 
-        // This method handles the form submission (POST request) when saving the changes
-        public IActionResult OnPost(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            // Find the class by Id in the static list in ClassData
-            var classToEdit = ClassData.Classes.FirstOrDefault(c => c.Id == id);
-            if (classToEdit == null || ClassInfo == null)
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (_context.Classes == null)
+            {
+                return NotFound();
+            }
+            var classToUpdate = await _context.Classes.FindAsync(id);
+
+            if (classToUpdate == null)
             {
                 return NotFound();
             }
 
-            // Update the class properties with the new form data
-            classToEdit.ClassName = ClassInfo.ClassName ?? classToEdit.ClassName;
-            classToEdit.StudentCount = ClassInfo.StudentCount;
-            classToEdit.Description = ClassInfo.Description ?? classToEdit.Description;
+            if (await TryUpdateModelAsync<Class>(
+                classToUpdate,
+                "ClassInfo", // Prefix for form fields
+                c => c.Name, c => c.PersonCount, c => c.Description))
+            {
+                await _context.SaveChangesAsync();
+                return RedirectToPage("/Index");
+            }
 
-            // Redirect back to the Index page to see the updated list
-            return RedirectToPage("/Index");
+            return Page();
         }
     }
 }

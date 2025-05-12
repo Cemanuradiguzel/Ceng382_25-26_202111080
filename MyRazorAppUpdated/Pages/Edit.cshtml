@@ -1,7 +1,7 @@
 @page
-@model MyRazorApp.Pages.EditModel
+@model RazorApp.Pages.EditModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Edit Class";
 }
 
 @if (!ModelState.IsValid)
@@ -14,28 +14,18 @@
     </div>
 }
 
-
-<!--<form method="post">
-    <h1>Edit Class Information</h1>
-    <input type="text" id="ClassName" name="ClassInfo.ClassName" class="form-control" value="@Model.ClassInfo?.ClassName ?? "Class Name"" required />
-    <input type="number" id="StudentCount" name="ClassInfo.StudentCount" class="form-control" value="@Model.ClassInfo?.StudentCount" required />
-    <textarea id="Description" name="ClassInfo.Description" class="form-control" required>@Model.ClassInfo?.Description</textarea>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form> -->
-
 <form method="post">
     <h1>Edit Class Information</h1>
 
     <!-- Use asp-for for binding fields -->
     <div class="form-group">
         <label for="ClassName">Class Name</label>
-        <input type="text" asp-for="ClassInfo.ClassName" class="form-control" required />
+        <input type="text" asp-for="ClassInfo.Name" class="form-control" required />
     </div>
 
     <div class="form-group">
         <label for="StudentCount">Student Count</label>
-        <input type="number" asp-for="ClassInfo.StudentCount" class="form-control" required />
+        <input type="number" asp-for="ClassInfo.PersonCount" class="form-control" required />
     </div>
 
     <div class="form-group">

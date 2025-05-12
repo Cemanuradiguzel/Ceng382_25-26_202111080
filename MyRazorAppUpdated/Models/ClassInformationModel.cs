@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MyRazorApp.Models
+namespace RazorApp.Models
 {
     public static class ClassData
     {

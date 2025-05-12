@@ -4,7 +4,7 @@
     ViewData["Title"] = "Class Information";
 }
 
-@using MyRazorApp.Models
+@using RazorApp.Models
 
 @if (!ModelState.IsValid)
 {
@@ -25,12 +25,12 @@
                 <form method="post">
                     <input type="hidden" asp-for="EditId" />
                     <div class="form-group">
-                        <label for="ClassName">Class Name</label>
-                        <input type="text" asp-for="ClassName" class="form-control" required />
+                        <label for="Name">Class Name</label>
+                        <input type="text" asp-for="Name" class="form-control" required />
                     </div>
                     <div class="form-group">
-                        <label for="StudentCount">Student Count</label>
-                        <input type="number" asp-for="StudentCount" class="form-control" required />
+                        <label for="PersonCount">Student Count</label>
+                        <input type="number" asp-for="PersonCount" class="form-control" required />
                     </div>
                     <div class="form-group">
                         <label for="Description">Description</label>
@@ -83,11 +83,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in (ViewData["ClassList"] as List<ClassInformationModel>) ?? new List<ClassInformationModel>())
+                        @foreach (var item in Model.ClassList)
                         {
                             <tr>
-                                <td>@item.ClassName</td>
-                                <td>@item.StudentCount</td>
+                                <td>@item.Name</td>
+                                <td>@item.PersonCount</td>
                                 <td>@item.Description</td>
                                 <td>
                                     <form method="post">

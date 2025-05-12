@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyRazorAppUpdated.Models;
+using RazorApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using System.Linq;
-using MyRazorApp.Models;
 
 namespace RazorApp.Pages
 {
